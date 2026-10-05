@@ -83,7 +83,25 @@ PDFから本文を取り出し、論文の構成を保ちながら日本語訳�
 
 ## 使い方
 
-セットアップ手順とアプリケーションのコマンドは、利用可能な機能が整い次第ここに記載します。
+### PDFからテキストを抽出する
+
+Python環境にプロジェクトをインストールすると、`parse_pdf` でページ別テキスト、全文、セクションを取得できます。
+
+```python
+from paper_ai.pdf import parse_pdf
+
+paper = parse_pdf("論文.pdf")
+print(paper.text)
+
+for page in paper.pages:
+    print(page.number, page.text)
+
+for section in paper.sections:
+    if section.translatable:
+        print(section.title, section.text)
+```
+
+この処理はPDFのテキストレイヤーを対象とし、OCRは行いません。見出し判定とヘッダー／フッター除去は抽出テキストに対するヒューリスティックです。段組み、数式、表、脚注などの読み順や復元はPDFの構造によって異なります。
 
 ## データの取り扱い
 
